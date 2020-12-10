@@ -1,0 +1,10 @@
+{
+    "name": "ubitcorp/debughost-php-client",
+    "type": "library",
+    "description": "Php client for DebugHost API",
+    "keywords": ["debughost", "api", "client"],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {"Ubitcorp\\DebugHost": "src/"}
+    }
+}
