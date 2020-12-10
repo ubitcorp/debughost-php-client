@@ -14,6 +14,6 @@
         }
     ],
     "autoload": {
-        "psr-4": {"Ubitcorp\\DebugHost": "src/"}
+        "psr-4": {"Ubitcorp\\DebugHost\\": "src/"}
     }
 }
