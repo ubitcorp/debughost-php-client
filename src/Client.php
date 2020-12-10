@@ -26,7 +26,7 @@ class Client{
             "status_code"=>$status_code
         ];
 
-        $make_call = $this.callAPI('POST', 'https://debughost/logs', json_encode($data));
+        $make_call = $this->callAPI('POST', 'https://debughost/logs', json_encode($data));
         $response = json_decode($make_call, true);
         $errors   = $response['response']['errors'];
         $data     = $response['response']['data'][0];
