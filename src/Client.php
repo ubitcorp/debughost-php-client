@@ -17,19 +17,6 @@ class Client{
     }
 
     public function storeLogs($from, $message, $detail = null, $class = null, $status_code = null ){
-        /*
-        $data =  array(
-            "project_id"  => $this->request->data['project_id'],
-            "message"     => $this->request->data['message'],
-            "detail"      => array(
-                                "code" => $this->request->data['detail']['code'],
-                                "file" => $this->request->data['detail']['file'],
-                                "line" => $this->request->data['detail']['line']
-                            ),
-            "from"        => $this->request->data['from'],
-            "class"       => $this->request->data['class'],
-            "status_code" => $this->request->data['status_code']
-        );*/
         
         $data = [
             "from"=>$from,
@@ -39,7 +26,7 @@ class Client{
             "status_code"=>$status_code
         ];
 
-        $make_call = callAPI('POST', 'https://debughost/logs', json_encode($data));
+        $make_call = $this.callAPI('POST', 'https://debughost/logs', json_encode($data));
         $response = json_decode($make_call, true);
         $errors   = $response['response']['errors'];
         $data     = $response['response']['data'][0];
