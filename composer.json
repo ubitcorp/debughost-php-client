@@ -3,7 +3,16 @@
     "type": "library",
     "description": "Php client for DebugHost API",
     "keywords": ["debughost", "api", "client"],
+    "homepage": "https://dh.kuzen.net",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Gülşah Alıcı",
+            "email": "gulsah.alici@ubit.com.tr",
+            "homepage": "https://gooo.to/gulsah",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {"Ubitcorp\\DebugHost": "src/"}
     }
