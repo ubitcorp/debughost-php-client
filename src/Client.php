@@ -4,7 +4,7 @@ namespace Ubitcorp\DebugHost;
 
 class Client{
 
-    protected $api_url  = "https://debughost/logs";
+    protected $api_url  = "https://dh.kuzen.net/api";
     protected $api_key, $api_secret;
     protected $error;
     
@@ -16,7 +16,8 @@ class Client{
         return $this;
     }
 
-    public function storeLogs(){
+    public function storeLogs($from, $message, $detail = null, $class = null, $status_code = null ){
+        /*
         $data =  array(
             "project_id"  => $this->request->data['project_id'],
             "message"     => $this->request->data['message'],
@@ -28,7 +29,15 @@ class Client{
             "from"        => $this->request->data['from'],
             "class"       => $this->request->data['class'],
             "status_code" => $this->request->data['status_code']
-        );
+        );*/
+        
+        $data = [
+            "from"=>$from,
+            "message"=>$message,
+            "detail"=>$detail,
+            "class"=>$class,
+            "status_code"=>$status_code
+        ];
 
         $make_call = callAPI('POST', 'https://debughost/logs', json_encode($data));
         $response = json_decode($make_call, true);
@@ -43,8 +52,8 @@ class Client{
 
        $header = [
             'Accept: application/json',
-            'api_key: '.$this->api_key,
-            'api_secret: '.$this->api_secret          
+            'Api-Key: '.$this->api_key,
+            'Api-Secret: '.$this->api_secret          
         ];
 
        curl_setopt_array($curl, [
