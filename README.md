@@ -1,6 +1,6 @@
 # debughost-php-client
 
-PHP client for [DebugHost](https://pip.pypa.io/en/stable/) API
+PHP client for [DebugHost](https://dh.kuzen.net) API
 
 
 ```bash
