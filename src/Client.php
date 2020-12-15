@@ -4,10 +4,11 @@ namespace Ubitcorp\DebugHost;
 
 class Client{
 
-    protected $api_url  = "https://dh.kuzen.net/api";
+    // Properties
+    protected $api_url  = "https://dh.kuzen.net/api/logs";
     protected $api_key, $api_secret;
-    protected $error;
-    
+
+    // Auth with Api Key and Api Secret
     public function __construct($api_key, $api_secret)
     {
         $this->api_key = $api_key;
@@ -16,51 +17,51 @@ class Client{
         return $this;
     }
 
-    public function storeLogs($from, $message, $detail = null, $class = null, $status_code = null ){
-        
+    // Receive data from client
+    public function storeLogs($message, $status_code, $detail = null, $from = null, $class = null)
+    {
         $data = [
-            "from"=>$from,
-            "message"=>$message,
-            "detail"=>$detail,
-            "class"=>$class,
-            "status_code"=>$status_code
+            "message" => $message,
+            "status_code" => $status_code,
+            "detail" => json_decode($detail),
+            "from" => $from,
+            "class" => $class
         ];
 
-        $make_call = $this->callAPI('POST', 'https://debughost/logs', json_encode($data));
-        $response = json_decode($make_call, true);
-        $errors   = $response['response']['errors'];
-        $data     = $response['response']['data'][0];
- 
-        return $data;
-    }
-
-    private function callAPI($method, $url, $data){
-       $curl = curl_init();
-
-       $header = [
+        $header = [
             'Accept: application/json',
             'Api-Key: '.$this->api_key,
             'Api-Secret: '.$this->api_secret          
         ];
 
+        return $this->callAPI($this->api_url, 'POST', $header, $data);
+    }
+
+    // Post data to Debughost
+    private function callAPI($url, $method, $header, $data)
+    {
+        
+       $curl = curl_init();
+
        curl_setopt_array($curl, [
-            CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_POST => 1,
             CURLOPT_URL => $url,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => $header,
-            CURLOPT_POSTFIELDS => $data,
-            CURLOPT_RETURNTRANSFER => 1
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($data)
         ]);
 
-       // EXECUTE:
-       $result = curl_exec($curl);
+        $response = curl_exec($curl);        
+       
+        if(!$response)
+            throw new \Exception("Connection Failure");
 
-       if(!$result)
-            {die("Connection Failure");}
+        $result = json_decode($response);
 
-       curl_close($curl);
+        curl_close($curl);
 
-       return $result;
+        return $result;
     }
 
 }
